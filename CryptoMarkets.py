@@ -33,11 +33,11 @@ def printCryptoTable():
     coinRaw = coinInfo["RAW"]
 
     #t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Change 24H", "24H %", "Volume", "Mkt. Cap"])
-    t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Change 24H", "Δ 24H %"])
+    t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Δ 24H", "Δ 24H %"])
     t.align["Price"] = "r"
     t.align["High 24H"] = "r"
     t.align["Low 24H"] = "r"
-    t.align["Change 24H"] = "r"
+    t.align["Δ 24H"] = "r"
     t.align["Δ 24H %"] = "r"
     t.align["Volume"] = "l"
     t.align["Mkt. Cap"] = "l"
