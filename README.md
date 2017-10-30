@@ -3,5 +3,5 @@ A Simple Python script that will show the price and the changes for defined cryp
 
 # How to run
 ```sh
-python3 CryptoMarkets
+python3 CryptoMarkets.py
 ```
