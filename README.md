@@ -1,10 +1,10 @@
 # CLI Crypto
 A Simple Python script that will show the price and the changes for defined cryptocurrencies.
 
-# I want to change which coins to follow!
+## I want to change which coins to follow!
 Change coinlist.txt (one coin/token for each line).
 
-# Command Line Arguments
+## Command Line Arguments
 ```sh
 Usage: CryptoMarkets.py [options]
 
@@ -16,10 +16,10 @@ Options:
                         Will print more info in the table
 ```
 
-# How to run
+## How to run
 ```sh
 python3 CryptoMarkets.py
 ```
 
-# Volumes show 0 on some coins
+## Volumes show 0 on some coins
 This is a limitation in the API, not every coin will have a volume connected in each currency.
