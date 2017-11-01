@@ -3,8 +3,22 @@
 import requests
 import time
 import os
+import sys
 from prettytable import PrettyTable
 from CryptoGetter import CryptoGetter
+from textReader import linesToList
+from optparse import OptionParser
+
+
+parser = OptionParser()
+parser.add_option("-c", "--cur", dest="targetcurrency", default="USD",
+                  help="Choose which currency you want to convert to", metavar="CUR")
+parser.add_option("-u", "--upd", dest="update", default=15,
+                  help="Choose the update interval", metavar="UPD")
+parser.add_option("-v", "--verbose", dest="verbose", default=False,
+                help="Will print more info in the table")
+
+(options, args) = parser.parse_args()
 
 class bcolors:
     HEADER = '\033[95m'
@@ -16,12 +30,11 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-UPDATEINTERVAL = 1
+UPDATEINTERVAL = int(options.update)
 BASEURL = "https://min-api.cryptocompare.com/data/pricemultifull"
+COINLIST = linesToList("coinlist.txt")
 
-COINLIST = ["BTC", "ETH", "DASH", "XRP", "GNT", "LTC", "BAT"]
-TOLIST = ["USD", "NOK", "BTC"]
-
+TOLIST = [options.targetcurrency]
 
 def printCryptoTable():
     getter = CryptoGetter(COINLIST, BASEURL, TOLIST)
@@ -32,8 +45,11 @@ def printCryptoTable():
     coinDisplay = coinInfo["DISPLAY"]
     coinRaw = coinInfo["RAW"]
 
-    #t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Change 24H", "24H %", "Volume", "Mkt. Cap"])
-    t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Δ 24H", "Δ 24H %"])
+
+    if options.verbose:
+        t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Change 24H", "24H %", "Volume", "Mkt. Cap"])
+    else:
+        t = PrettyTable(["Pair", "Price", "High 24H", "Low 24H", "Δ 24H", "Δ 24H %"])
     t.align["Price"] = "r"
     t.align["High 24H"] = "r"
     t.align["Low 24H"] = "r"
@@ -61,8 +77,10 @@ def printCryptoTable():
         volume = coinDisplay[coin][TOLIST[0]]["VOLUMEDAY"]
         mktCap = coinDisplay[coin][TOLIST[0]]["MKTCAP"]
 
-        t.add_row([pair, price, price24HHigh, price24HLow, change24H, change24HPCT])
-        #t.add_row([pair, price, price24HHigh, price24HLow, change24H, change24HPCT, volume, mktCap])
+        if options.verbose:
+            t.add_row([pair, price, price24HHigh, price24HLow, change24H, change24HPCT, volume, mktCap])
+        else:
+            t.add_row([pair, price, price24HHigh, price24HLow, change24H, change24HPCT])
 
     os.system('clear')
     print(t)
@@ -71,4 +89,8 @@ def printCryptoTable():
 wantToCont = True
 while wantToCont:
     printCryptoTable()
-    time.sleep(1)
+    try:
+        print("Exit with Ctrl-C.")
+        time.sleep(UPDATEINTERVAL)
+    except KeyboardInterrupt:
+        sys.exit()
