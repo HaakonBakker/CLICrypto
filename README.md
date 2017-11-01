@@ -1,7 +1,7 @@
 # CLI Crypto
 A Simple Python script that will show the price and the changes for defined cryptocurrencies.
 
-## I want to change which coins to follow!
+## I want to change which coins to list!
 Change coinlist.txt (one coin/token for each line).
 
 ## Command Line Arguments
